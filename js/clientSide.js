@@ -22,8 +22,7 @@ async function getWeather() {
     let currentDay = dayjs().format('D');
     let city = document.getElementById(`locationInput`).value;
     const resCur = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=3e435c47205fce9efa0e31699f09a538&units=imperial`)
-    console.log(resCur.ok);
-    if(resCur.ok = false) {
+    if(resCur.ok === false) {
         let notFound = document.createElement('p');
         notFound.textContent = "City not found! Please try again"
         notFound.setAttribute('style', 'font-family: "Traveling-Typewriter"; font-size: 2em')
@@ -97,13 +96,14 @@ function displayResults(e) {
         searchContain.removeChild(searchContain.lastChild)
         let weatherData = getWeather();
         inputEl.value = '';
-        currentWeather(weatherData[0]);
+        currentWeatherDisp(weatherData[0]);
+        document.getElementById('header').setAttribute('style', 'animation-name:moveUp; animation-duration: .5s; animation-fill-mode:forwards;')
 
 
     }
 }
 
-function currentWeather(data) {
+function currentWeatherDisp(data) {
     
 }
 inputEl.addEventListener('keydown', searchInstruct);

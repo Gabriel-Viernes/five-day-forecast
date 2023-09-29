@@ -1,10 +1,8 @@
 /* <a href="https://www.freepik.com/free-vector/newspaper-pages-vintage_6375448.htm#query=newspaper&position=0&from_view=search&track=sph">Image by macrovector</a> on Freepik */
-:root {
 
-}
 @font-face {
-    font-family: Coney-Island;
-    src: url(../fonts/CONEI___.ttf);
+    font-family: Typewriter;
+    src: url(../fonts/jmh_typewriter/JMH-Typewriter.ttf);
 }
 @font-face {
     font-family: Traveling-Typewriter;
@@ -12,8 +10,14 @@
 }
 
 @keyframes disappear {
-    from {opacity:1}
-    to {opacity:0}
+    0% {opacity:1}
+    50%{opacity:1}
+    100%{opacity:0}
+}
+
+@keyframes moveUp {
+    from {margin-top: 4em}
+    to {margin-top: .5em}
 }
 
 .disappear {
@@ -31,6 +35,15 @@ body {
 h1 {
     font-family:"Traveling-Typewriter";
     font-size:5em;
+    margin-top: 4em;
+}
+
+h2 {
+    
+}
+
+p {
+    font-family:"Typewriter"
 }
 
 input {
@@ -41,3 +54,4 @@ input {
     width: 50%;
     text-align:center;
 }
+
