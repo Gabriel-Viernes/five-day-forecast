@@ -11,6 +11,17 @@
     src: url(../fonts/traveling_typewriter/TravelingTypewriter.ttf)
 }
 
+@keyframes disappear {
+    from {opacity:1}
+    to {opacity:0}
+}
+
+.disappear {
+    animation-name:disappear;
+    animation-duration:1.5s;
+    animation-fill-mode:forwards;
+}
+
 body {
     background: url("../img/background.png");
     height: 100%;

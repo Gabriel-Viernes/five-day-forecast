@@ -22,9 +22,22 @@ async function getWeather() {
     let currentDay = dayjs().format('D');
     let city = document.getElementById(`locationInput`).value;
     const resCur = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=3e435c47205fce9efa0e31699f09a538&units=imperial`)
+    console.log(resCur.ok);
+    if(resCur.ok = false) {
+        let notFound = document.createElement('p');
+        notFound.textContent = "City not found! Please try again"
+        notFound.setAttribute('style', 'font-family: "Traveling-Typewriter"; font-size: 2em')
+        notFound.setAttribute('class', 'disappear')
+        searchContain.append(notFound)
+        setTimeout(() => {
+            notFound.remove()
+        },2000);
+        return;
+    }
     let dataCur= await resCur.json();
     const resFore = await fetch(`https://api.openweathermap.org/data/2.5/forecast/?q=${city}&appid=3e435c47205fce9efa0e31699f09a538&units=imperial`)
     let dataFore = await resFore.json();
+
     let currentData = new weatherObj(
         dataCur.name,
         dataCur.dt,
@@ -38,10 +51,6 @@ async function getWeather() {
     )
     dataset.push(currentData);
     for (let i = 1; i < dataFore.cnt; i++) {
-        console.log(currentDay)
-        console.log(typeof currentDay)
-        console.log(dayjs(dataFore.list[i].dt * 1000).format('DD'))
-        console.log(typeof dayjs(dataFore.list[i].dt * 1000).format('DD'))
         if(currentDay == dayjs(dataFore.list[i].dt * 1000).format('DD')) {
             console.log(`true`)
         } else {
@@ -65,6 +74,7 @@ async function getWeather() {
             dataset.push(buffer)
         }
     }
+
     return dataset;
 }
 
@@ -74,7 +84,11 @@ function searchInstruct(e) {
         let userInstruct = document.createElement('p');
         userInstruct.textContent = "Press enter to search"
         userInstruct.setAttribute('style', 'font-family: "Traveling-Typewriter"; font-size: 2em')
+        userInstruct.setAttribute('class', 'disappear')
         searchContain.append(userInstruct);
+        setTimeout(() => {
+            userInstruct.remove()
+        },2000)
     }    
 }
 
@@ -83,19 +97,14 @@ function displayResults(e) {
         searchContain.removeChild(searchContain.lastChild)
         let weatherData = getWeather();
         inputEl.value = '';
+        currentWeather(weatherData[0]);
 
 
     }
 }
 
 function currentWeather(data) {
-    // needs:
-    // city name
-    // data
-    // icon 
-    // current temp
-    // humidity
-    // wind speed
+    
 }
 inputEl.addEventListener('keydown', searchInstruct);
 inputEl.addEventListener('keydown', displayResults)
