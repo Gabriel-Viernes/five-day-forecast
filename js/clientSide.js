@@ -51,11 +51,6 @@ async function getWeather() {
     dataset.push(currentData);
     for (let i = 1; i < dataFore.cnt; i++) {
         if(currentDay == dayjs(dataFore.list[i].dt * 1000).format('DD')) {
-            console.log(`true`)
-        } else {
-            console.log(`false`)
-        }
-        if(currentDay == dayjs(dataFore.list[i].dt * 1000).format('DD')) {
         } else {
             currentDay = dayjs(dataFore.list[i].dt * 1000).format('DD')
             let buffer = new weatherObj(
@@ -69,7 +64,6 @@ async function getWeather() {
                 dataFore.list[i].main.humidity,
                 dataFore.list[i].wind.speed
             )
-            console.log(dayjs(buffer.dt).format('MM/DD/YYYY'))
             dataset.push(buffer)
         }
     }
@@ -78,33 +72,29 @@ async function getWeather() {
 }
 
 function searchInstruct(e) {
-    if (searchContain.lastChild.textContent === "Press enter to search") {
+    if (searchContain.lastChild.textContent === " Press enter to search ") {
     } else {
-        let userInstruct = document.createElement('p');
-        userInstruct.textContent = "Press enter to search"
-        userInstruct.setAttribute('style', 'font-family: "Traveling-Typewriter"; font-size: 2em')
-        userInstruct.setAttribute('class', 'disappear')
-        searchContain.append(userInstruct);
+        $('#searchContain').append(`<p class = "disappear" style = "font-family:Traveling-Typewriter; font-size: 2em"> Press enter to search </p>`)
         setTimeout(() => {
-            userInstruct.remove()
-        },2000)
+            $(".disappear").remove()
+        },1500)
     }    
 }
 
 function displayResults(e) {
     if (e.code === 'Enter') {
-        searchContain.removeChild(searchContain.lastChild)
         let weatherData = getWeather();
         inputEl.value = '';
-        currentWeatherDisp(weatherData[0]);
-        document.getElementById('header').setAttribute('style', 'animation-name:moveUp; animation-duration: .5s; animation-fill-mode:forwards;')
+        // currentWeatherDisp(weatherData[0]);
+        $('#header').attr(`class`, `moveUp`)
 
 
     }
 }
 
 function currentWeatherDisp(data) {
-    
+    let curWeaDiv = document.getElementById('currentWeather');
+    let curWeaTime = dayjs(data.dt).format('MMMM DD, YYYY')
 }
 inputEl.addEventListener('keydown', searchInstruct);
 inputEl.addEventListener('keydown', displayResults)
