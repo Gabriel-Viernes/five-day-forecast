@@ -1,5 +1,5 @@
 /* <a href="https://www.freepik.com/free-vector/newspaper-pages-vintage_6375448.htm#query=newspaper&position=0&from_view=search&track=sph">Image by macrovector</a> on Freepik */
-
+/* nordwood https://unsplash.com/photos/R53t-Tg6J4c */
 @font-face {
     font-family: Typewriter;
     src: url(../fonts/jmh_typewriter/JMH-Typewriter.ttf);
@@ -30,8 +30,16 @@
     animation-fill-mode:forwards;
 }
 
+.infoBorder {
+    background: white;
+    margin-bottom:0;
+    border-radius:5px;
+    border: 5px solid black;
+}
+
 body {
     background: url("../img/background.png");
+    background-size: cover;
     height: 100%;
     background-size:100%;
 }
@@ -50,7 +58,7 @@ input {
     font-family:"Traveling-Typewriter";
     border-radius: 5px;
     border: 5px;
-    font-size: 3em;
+    font-size: 2.5em;
     width: 50%;
     text-align:center;
 }

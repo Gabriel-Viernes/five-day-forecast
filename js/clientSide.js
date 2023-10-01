@@ -23,15 +23,11 @@ async function getWeather() {
     let city = document.getElementById(`locationInput`).value;
     const resCur = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=3e435c47205fce9efa0e31699f09a538&units=imperial`)
     if(resCur.ok === false) {
-        let notFound = document.createElement('p');
-        notFound.textContent = "City not found! Please try again"
-        notFound.setAttribute('style', 'font-family: "Traveling-Typewriter"; font-size: 2em')
-        notFound.setAttribute('class', 'disappear')
-        searchContain.append(notFound)
+        $('#searchContain').append(`<span class = "disappear" style = 'position: absolute;font-family: "Traveling-Typewriter"; font-size: 1em; padding-left:1em;'> City not found! Please try again </span>`)
         setTimeout(() => {
-            notFound.remove()
+            $('.disappear').remove()
         },2000);
-        return;
+        return null;
     }
     let dataCur= await resCur.json();
     const resFore = await fetch(`https://api.openweathermap.org/data/2.5/forecast/?q=${city}&appid=3e435c47205fce9efa0e31699f09a538&units=imperial`)
@@ -74,27 +70,41 @@ async function getWeather() {
 function searchInstruct(e) {
     if (searchContain.lastChild.textContent === " Press enter to search ") {
     } else {
-        $('#searchContain').append(`<p class = "disappear" style = "font-family:Traveling-Typewriter; font-size: 2em"> Press enter to search </p>`)
+        $('#searchContain').append(`<span class = "disappear" style = "font-family:Traveling-Typewriter; font-size: 1.5em; padding-left:1em; position:absolute;"> Press enter to search </span>`)
         setTimeout(() => {
             $(".disappear").remove()
         },1500)
     }    
 }
 
-function displayResults(e) {
+async function displayResults(e) {
     if (e.code === 'Enter') {
-        let weatherData = getWeather();
+        let weatherData = await getWeather();
+        console.log(weatherData)
         inputEl.value = '';
-        // currentWeatherDisp(weatherData[0]);
-        $('#header').attr(`class`, `moveUp`)
-
+        if(weatherData != null) {
+            currentWeatherDisp(weatherData);
+            $('#header').attr(`class`, `moveUp`)
+        }
 
     }
 }
 
 function currentWeatherDisp(data) {
-    let curWeaDiv = document.getElementById('currentWeather');
-    let curWeaTime = dayjs(data.dt).format('MMMM DD, YYYY')
+    $('#currentWeather').removeClass('d-none')
+    $('#currentWeather').append(`
+    <h2>Today in ${data[0].city}, ${dayjs(data[0].date * 1000).format('MMMM DD, YYYY')}</h2>
+    <img src='https://openweathermap.org/img/wn/${data[0].icon}@2x.png' style = 'background: grey; border: 1em solid grey; border-radius:100px;'></img>
+    <p>Current temperature is ${data[0].currTemp} </p>
+    <p>Low: ${data[0].minTemp}</p>
+    <p>High: ${data[0].maxTemp}</p>
+    <p>Humidity: ${data[0].humidity}</p>
+    <p>Wind Speed: ${data[0].windspd} mph</p>
+    `)
+}
+
+function forecastWeatherDisp (data) {
+    
 }
 inputEl.addEventListener('keydown', searchInstruct);
 inputEl.addEventListener('keydown', displayResults)
