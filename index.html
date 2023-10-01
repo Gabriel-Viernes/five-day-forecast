@@ -10,16 +10,16 @@
     </head>
     <body>
         <div id = 'searchContain' class = "text-center">
-            <h1 id = 'header' style = "">Five Day Forecast</h1>
-            <input id = "locationInput" placeholder = "Enter city name here"></input>
+            <h1 id = 'header'>Five Day Forecast</h1>
+            <input id = "locationInput" placeholder = "Type city name here" style = ""></input>
         </div>
-        <div id = 'resultsContain' class = "w-75 row m-auto" style = "padding-top:1em">
-            <div id = 'currentWeather' class = "col-6">
-                <div class = "text-center">
-                    <p>Lorem ipsum</p>
-                </div>
+        <div id = 'resultsContain' class = "w-75 row m-auto " style = "padding-top:1em">
+            <div id = 'currentWeather' class = "col-6 text-center infoBorder d-none" style = "margin-top: 2em">
+            </div>
+            <div id = 'forecastWeather' class = 'col-6 infoBorder d-none' style = 'margin-top: 2em'>
             </div>
         </div>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
         <script src="./js/clientSide.js"></script>
     </body>
