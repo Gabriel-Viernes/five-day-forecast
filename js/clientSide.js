@@ -19,7 +19,7 @@ function weatherObj(city, date, icon, weatherDesc, minTemp, maxTemp, currTemp, h
 
 async function getWeather() {
     let dataset = [];
-    let currentDay = dayjs().format('D');
+    let currentDay = dayjs().format('DD');
     let city = document.getElementById(`locationInput`).value;
     const resCur = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=3e435c47205fce9efa0e31699f09a538&units=imperial`)
     if(resCur.ok === false) {
@@ -45,9 +45,11 @@ async function getWeather() {
         dataCur.wind.speed
     )
     dataset.push(currentData);
-    for (let i = 1; i < dataFore.cnt; i++) {
+    for (let i = 0; i < dataFore.cnt; i++) {
         if(currentDay == dayjs(dataFore.list[i].dt * 1000).format('DD')) {
         } else {
+            console.log(currentDay)
+            console.log(dayjs(dataFore.list[i].dt * 1000).format('DD'))
             currentDay = dayjs(dataFore.list[i].dt * 1000).format('DD')
             let buffer = new weatherObj(
                 "",
@@ -63,6 +65,7 @@ async function getWeather() {
             dataset.push(buffer)
         }
     }
+    console.log(dataset)
 
     return dataset;
 }
@@ -96,10 +99,10 @@ function currentWeatherDisp(data) {
     $('#currentWeather').removeClass('d-none')
     $('#currentWeather').append(`
     <h2>Today in ${data[0].city}, ${dayjs(data[0].date * 1000).format('MMMM DD, YYYY')}</h2>
-    <img src='https://openweathermap.org/img/wn/${data[0].icon}@2x.png' style = 'background: grey; border-radius:100%;max-width:15%'></img>
-    <p>Current temperature is ${data[0].currTemp}&deg</p>
-    <p>Low: ${data[0].minTemp}&deg</p>
-    <p>High: ${data[0].maxTemp}&deg</p>
+    <img src='https://openweathermap.org/img/wn/${data[0].icon}@2x.png' style = 'background: grey; border-radius:100%;max-width:15%; padding:0;'></img>
+    <p>Current temperature is ${data[0].currTemp}&degF</p>
+    <p>Low: ${data[0].minTemp}&degF</p>
+    <p>High: ${data[0].maxTemp}&degF</p>
     <p>Humidity: ${data[0].humidity}%</p>
     <p>Wind Speed: ${data[0].windspd} mph</p>
     `)
@@ -110,12 +113,12 @@ function forecastWeatherDisp (data) {
     // skips currentWeather, which will always be first
     for (let i = 1; i < data.length; i++) {
         $('#forecastWeather').append(`
-        <div class = 'row m-1 d-flex'>
-        <img src = 'https://openweathermap.org/img/wn/${data[i].icon}.png' style = 'background: grey; border-radius:100%;max-width:15%'></img>
-            <div class = 'col-8'>
+        <div class = 'm-1 forecastCard'>
+            <img src = 'https://openweathermap.org/img/wn/${data[i].icon}@2x.png' style = 'background: grey; border-radius:100%; object-fit:fill'></img>
+            <div style=>
                 <h3 class='m-0'>${dayjs(data[i].date * 1000).format('MM/DD')}, ${data[i].weatherDesc}</h3>
-                <p class='m-0'>Low:${data[i].minTemp}&deg|High:${data[i].maxTemp}&deg</p>
-                <p class='m-0'>Hum:${data[i].humidity}%|Wind:${data[i].windspd}mph</p>              
+                <p class='m-0'>Low: ${data[i].minTemp}&degF | High: ${data[i].maxTemp}&degF</p>
+                <p class='m-0'>Hum: ${data[i].humidity}% | Wind:${data[i].windspd}mph</p>              
             </div>
         </div>
         `)

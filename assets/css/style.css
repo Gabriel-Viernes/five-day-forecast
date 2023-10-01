@@ -39,6 +39,21 @@
     border: 5px solid black;
 }
 
+.forecastCard {
+    display:grid;
+    column-gap:.5em;
+    row-gap:.5em;
+    grid-template-columns:20% 80%;
+}
+
+.forecastCard img {
+
+}
+
+#currentWeather p {
+    font-size:1.5em;
+}
+
 body {
     background: url("../img/background.png");
     background-size: cover;
