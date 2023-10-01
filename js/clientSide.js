@@ -83,8 +83,10 @@ async function displayResults(e) {
         console.log(weatherData)
         inputEl.value = '';
         if(weatherData != null) {
-            currentWeatherDisp(weatherData);
             $('#header').attr(`class`, `moveUp`)
+            currentWeatherDisp(weatherData);
+            forecastWeatherDisp(weatherData)
+
         }
 
     }
@@ -95,16 +97,29 @@ function currentWeatherDisp(data) {
     $('#currentWeather').append(`
     <h2>Today in ${data[0].city}, ${dayjs(data[0].date * 1000).format('MMMM DD, YYYY')}</h2>
     <img src='https://openweathermap.org/img/wn/${data[0].icon}@2x.png' style = 'background: grey; border: 1em solid grey; border-radius:100px;'></img>
-    <p>Current temperature is ${data[0].currTemp} </p>
-    <p>Low: ${data[0].minTemp}</p>
-    <p>High: ${data[0].maxTemp}</p>
-    <p>Humidity: ${data[0].humidity}</p>
+    <p>Current temperature is ${data[0].currTemp}&deg</p>
+    <p>Low: ${data[0].minTemp}&deg</p>
+    <p>High: ${data[0].maxTemp}&deg</p>
+    <p>Humidity: ${data[0].humidity}%</p>
     <p>Wind Speed: ${data[0].windspd} mph</p>
     `)
 }
 
 function forecastWeatherDisp (data) {
-    
+    $('#forecastWeather').removeClass('d-none');
+    // skips currentWeather, which will always be first
+    for (let i = 1; i < data.length; i++) {
+        $('#forecastWeather').append(`
+        <div class = 'row m-1'>
+            <img src = 'https://openweathermap.org/img/wn/${data[i].icon}@2x.png' style = 'width:15%; background: grey; border: 1em solid grey; border-radius:100px;'></img>
+            <div style='width:75%'>
+                <h3>${dayjs(data[i].date).format('MM/DD')}, ${data[i].weatherDesc}</h3>
+                <p>Low:${data[i].min}&deg|High:${data[i].max}&deg</p>
+                <p>Hum:${data[i].humidity}%|Wind:${data[i].windspd}mph</p>              
+            </div>
+        </div>
+        `)
+    }
 }
 inputEl.addEventListener('keydown', searchInstruct);
 inputEl.addEventListener('keydown', displayResults)
