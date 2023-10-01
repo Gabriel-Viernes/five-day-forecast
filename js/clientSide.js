@@ -114,12 +114,12 @@ function forecastWeatherDisp (data) {
     for (let i = 1; i < data.length; i++) {
         $('#forecastWeather').append(`
         <div class = 'm-1 forecastCard'>
-            <img src = 'https://openweathermap.org/img/wn/${data[i].icon}@2x.png' style = 'background: grey; border-radius:100%; object-fit:fill'></img>
             <div style=>
                 <h3 class='m-0'>${dayjs(data[i].date * 1000).format('MM/DD')}, ${data[i].weatherDesc}</h3>
                 <p class='m-0'>Low: ${data[i].minTemp}&degF | High: ${data[i].maxTemp}&degF</p>
                 <p class='m-0'>Hum: ${data[i].humidity}% | Wind:${data[i].windspd}mph</p>              
             </div>
+            <img src = 'https://openweathermap.org/img/wn/${data[i].icon}@2x.png' style = 'background: grey; border-radius:100%; object-fit:contain'></img>
         </div>
         `)
     }

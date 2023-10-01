@@ -43,7 +43,7 @@
     display:grid;
     column-gap:.5em;
     row-gap:.5em;
-    grid-template-columns:20% 80%;
+    grid-template-columns:65% 20%;
 }
 
 .forecastCard img {
