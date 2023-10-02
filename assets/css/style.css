@@ -80,6 +80,7 @@
     animation-name: select;
     animation-duration: .5s;
     animation-fill-mode: forwards;
+    cursor:pointer;
 }
 
 body {

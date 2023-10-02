@@ -17,10 +17,9 @@ function weatherObj(city, date, icon, weatherDesc, minTemp, maxTemp, currTemp, h
     this.windspd = windspd
 }
 
-async function getWeather() {
+async function getWeather(city) {
     let dataset = [];
     let currentDay = dayjs().format('DD');
-    let city = document.getElementById(`locationInput`).value;
     const resCur = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=3e435c47205fce9efa0e31699f09a538&units=imperial`)
     if(resCur.ok === false) {
         $('#searchContain').append(`<p id = 'cityWarning' class = "disappear" style = 'position: absolute;font-family: "Traveling-Typewriter"; font-size: 1.5em; text-align:center; width: 100%;'> City not found! Please try again </p>`)
@@ -78,16 +77,25 @@ function searchInstruct(e) {
 }
 
 async function displayResults(e) {
-    if (e.code === 'Enter') {
-        let weatherData = await getWeather();
+    console.log(e.which)
+    if ((e.code === 'Enter')) {
+        let city = inputEl.value;
+        let weatherData = await getWeather(city);
         inputEl.value = '';
         if(weatherData != null) {
             $('#header').attr(`class`, `moveUp`)
             currentWeatherDisp(weatherData);
             forecastWeatherDisp(weatherData)
-
         }
-
+    } else if (e.which === 1) {
+        let city = this.textContent;
+        let weatherData = await getWeather(city);
+        inputEl.value = '';
+        if(weatherData != null) {
+            $('#header').attr(`class`, `moveUp`)
+            currentWeatherDisp(weatherData);
+            forecastWeatherDisp(weatherData)
+        }
     }
 }
 
@@ -109,9 +117,9 @@ function currentWeatherDisp(data) {
     </div>
     `)
     for (let i = 0; i < temp.length; i++) {
-
-        $('#previousSearchList').append(`<li>${temp[i]}</li>`)
+        $('#previousSearchList').append(`<li class = 'searchItem'>${temp[i]}</li>`)
     }
+    $('.searchItem').on('click', displayResults);
 }
 
 function forecastWeatherDisp (data) {
