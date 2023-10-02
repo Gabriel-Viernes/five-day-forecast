@@ -48,8 +48,6 @@ async function getWeather() {
     for (let i = 0; i < dataFore.cnt; i++) {
         if(currentDay == dayjs(dataFore.list[i].dt * 1000).format('DD')) {
         } else {
-            console.log(currentDay)
-            console.log(dayjs(dataFore.list[i].dt * 1000).format('DD'))
             currentDay = dayjs(dataFore.list[i].dt * 1000).format('DD')
             let buffer = new weatherObj(
                 "",
@@ -65,7 +63,6 @@ async function getWeather() {
             dataset.push(buffer)
         }
     }
-    console.log(dataset)
 
     return dataset;
 }
@@ -83,7 +80,6 @@ function searchInstruct(e) {
 async function displayResults(e) {
     if (e.code === 'Enter') {
         let weatherData = await getWeather();
-        console.log(weatherData)
         inputEl.value = '';
         if(weatherData != null) {
             $('#header').attr(`class`, `moveUp`)
@@ -96,6 +92,7 @@ async function displayResults(e) {
 }
 
 function currentWeatherDisp(data) {
+    let temp = JSON.parse(localStorage.getItem('searches'));
     $('#currentWeather').removeClass('d-none')
     $('#currentWeather').empty();
     $('#currentWeather').append(`
@@ -106,7 +103,15 @@ function currentWeatherDisp(data) {
     <p>High: ${data[0].maxTemp}&degF</p>
     <p>Humidity: ${data[0].humidity}%</p>
     <p>Wind Speed: ${data[0].windspd} mph</p>
+    <div id = 'previousSearch'>
+        <h5>Previous searches:</h5>
+        <ul id = 'previousSearchList'></ul>
+    </div>
     `)
+    for (let i = 0; i < temp.length; i++) {
+
+        $('#previousSearchList').append(`<li>${temp[i]}</li>`)
+    }
 }
 
 function forecastWeatherDisp (data) {
@@ -129,7 +134,6 @@ function forecastWeatherDisp (data) {
 
 function storeSearchCheck (e) {
     if (e.code === 'Enter') {
-        console.log(localStorage.getItem("searches"))
         if (localStorage.getItem("searches") == null) {
             let searches = ['placeholder'];
             storeSearchModify(searches);
