@@ -97,6 +97,7 @@ async function displayResults(e) {
 
 function currentWeatherDisp(data) {
     $('#currentWeather').removeClass('d-none')
+    $('#currentWeather').empty();
     $('#currentWeather').append(`
     <h2>Today in ${data[0].city}, ${dayjs(data[0].date * 1000).format('MMMM DD, YYYY')}</h2>
     <img src='https://openweathermap.org/img/wn/${data[0].icon}@2x.png' style = 'background: grey; border-radius:100%;max-width:15%; padding:0;'></img>
@@ -111,6 +112,7 @@ function currentWeatherDisp(data) {
 function forecastWeatherDisp (data) {
     $('#forecastWeather').removeClass('d-none');
     // skips currentWeather, which will always be first
+    $('#forecastWeather').empty()
     for (let i = 1; i < data.length; i++) {
         $('#forecastWeather').append(`
         <div class = 'm-1 forecastCard'>
@@ -124,5 +126,35 @@ function forecastWeatherDisp (data) {
         `)
     }
 }
+
+function storeSearchCheck (e) {
+    if (e.code === 'Enter') {
+        console.log(localStorage.getItem("searches"))
+        if (localStorage.getItem("searches") == null) {
+            let searches = ['placeholder'];
+            storeSearchModify(searches);
+        } else {
+            let searches = JSON.parse(localStorage.getItem('searches'));    
+            storeSearchModify(searches);    
+        }
+    }
+
+}
+
+function storeSearchModify (input) {
+    if (input[0] === 'placeholder') {
+        input.push($('#locationInput').val());
+        input.shift();
+        localStorage.setItem('searches', JSON.stringify(input))
+    } else if (input.length > 4) {
+        input.push($('#locationInput').val());
+        input.shift();
+        localStorage.setItem('searches', JSON.stringify(input))
+    } else {
+        input.push($('#locationInput').val());
+        localStorage.setItem('searches', JSON.stringify(input))
+    }
+}
 inputEl.addEventListener('keydown', searchInstruct);
 inputEl.addEventListener('keydown', displayResults);
+inputEl.addEventListener('keydown', storeSearchCheck);
