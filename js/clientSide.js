@@ -23,9 +23,9 @@ async function getWeather() {
     let city = document.getElementById(`locationInput`).value;
     const resCur = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=3e435c47205fce9efa0e31699f09a538&units=imperial`)
     if(resCur.ok === false) {
-        $('#searchContain').append(`<span class = "disappear" style = 'position: absolute;font-family: "Traveling-Typewriter"; font-size: 1em; padding-left:1em;'> City not found! Please try again </span>`)
+        $('#searchContain').append(`<p id = 'cityWarning' class = "disappear" style = 'position: absolute;font-family: "Traveling-Typewriter"; font-size: 1.5em; text-align:center; width: 100%;'> City not found! Please try again </p>`)
         setTimeout(() => {
-            $('.disappear').remove()
+            $('#cityWarning').remove()
         },2000);
         return null;
     }
@@ -72,10 +72,10 @@ async function getWeather() {
 
 function searchInstruct(e) {
     if (searchContain.lastChild.textContent === " Press enter to search ") {
-    } else {
-        $('#searchContain').append(`<span class = "disappear" style = "font-family:Traveling-Typewriter; font-size: 1.5em; padding-left:1em; position:absolute;"> Press enter to search </span>`)
+    } else if (e.code != 'Enter') {
+        $('#searchContain').append(`<p id = 'enterRemind' class = "disappear" style = "font-family:Traveling-Typewriter; font-size: 1.5em; position:absolute; margin:0; padding: 0; text-align:center; width: 100%"> Press enter to search </p>`)
         setTimeout(() => {
-            $(".disappear").remove()
+            $("#enterRemind").remove()
         },1500)
     }    
 }
