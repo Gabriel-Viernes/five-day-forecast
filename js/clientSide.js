@@ -5,6 +5,7 @@
 let searchContain = document.getElementById('searchContain')
 let inputEl = document.getElementById(`locationInput`);
 
+// obj used to transfer data from api to local functions
 function weatherObj(city, date, icon, weatherDesc, minTemp, maxTemp, currTemp, humidity, windspd) {
     this.city = city;
     this.date = date;
@@ -17,6 +18,7 @@ function weatherObj(city, date, icon, weatherDesc, minTemp, maxTemp, currTemp, h
     this.windspd = windspd
 }
 
+// pulls data from the openweathermap and creates and array of weatherObj to used in local functions
 async function getWeather(city) {
     let dataset = [];
     let currentDay = dayjs().format('DD');
@@ -66,6 +68,7 @@ async function getWeather(city) {
     return dataset;
 }
 
+// tells the user to press enter to search
 function searchInstruct(e) {
     if (searchContain.lastChild.textContent === " Press enter to search ") {
     } else if (e.code != 'Enter') {
@@ -76,6 +79,7 @@ function searchInstruct(e) {
     }    
 }
 
+// differentiates between input from input box and user clicking on a previous search
 async function displayResults(e) {
     console.log(e.which)
     if ((e.code === 'Enter')) {
@@ -99,6 +103,7 @@ async function displayResults(e) {
     }
 }
 
+// appends current weather data and previous searches to HTML
 function currentWeatherDisp(data) {
     let temp = JSON.parse(localStorage.getItem('searches'));
     $('#currentWeather').removeClass('d-none')
@@ -122,6 +127,7 @@ function currentWeatherDisp(data) {
     $('.searchItem').on('click', displayResults);
 }
 
+//appends forecast data to HTML
 function forecastWeatherDisp (data) {
     $('#forecastWeather').removeClass('d-none');
     // skips currentWeather, which will always be first
@@ -140,6 +146,7 @@ function forecastWeatherDisp (data) {
     }
 }
 
+// checks localStorage if previous searches exist and creates an array to contain them if there are none
 function storeSearchCheck (e) {
     if (e.code === 'Enter') {
         if (localStorage.getItem("searches") == null) {
@@ -153,6 +160,7 @@ function storeSearchCheck (e) {
 
 }
 
+// adds previous searches to an array, up to a max of 5, then puts it in localStorage
 function storeSearchModify (input) {
     if (input[0] === 'placeholder') {
         input.push($('#locationInput').val());

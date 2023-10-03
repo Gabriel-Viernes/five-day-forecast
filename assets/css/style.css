@@ -1,5 +1,4 @@
-/* <a href="https://www.freepik.com/free-vector/newspaper-pages-vintage_6375448.htm#query=newspaper&position=0&from_view=search&track=sph">Image by macrovector</a> on Freepik */
-/* nordwood https://unsplash.com/photos/R53t-Tg6J4c */
+/**/
 @font-face {
     font-family: Typewriter;
     src: url(../fonts/jmh_typewriter/JMH-Typewriter.ttf);
@@ -27,6 +26,7 @@
         background-color:black;   
     }
 }
+
 .moveUp {
     animation-name:moveUp;
     animation-duration:.75s;
@@ -54,13 +54,9 @@
     grid-template-columns:65% 20%;
 }
 
-.forecastCard img {
-
-}
 
 #currentWeather p {
     font-size:1.5em;
-
 }
 
 #previousSearch ul {
